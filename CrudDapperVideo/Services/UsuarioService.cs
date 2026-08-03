@@ -72,5 +72,98 @@ namespace CrudDapperVideo.Services
             return response;
 
         }
+
+        public async Task<ResponseModel<List<UsuarioListarDto>>> CriarUsuario(UsuarioCriarDto usuarioCriarDto)
+        {
+            ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
+
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+
+                var usuariosBanco = await connection.ExecuteAsync("insert into Usuarios (NomeCompleto, Email, Cargo, Unidade, Situacao, Senha) "+
+                  "values (@NomeCompleto, @Email, @Cargo, @Unidade, @Situacao, @Senha)", usuarioCriarDto);
+
+                if(usuariosBanco == 0)
+                {
+                    response.Mensagem = "Ocorreu um erro ao realizar o registro!";
+                    response.Status = false;
+                    return response;
+
+
+                }
+
+                var usuarios = await ListarUsuarios(connection);
+
+                var usuariosMapeados = _mapper.Map<List<UsuarioListarDto>>(usuarios);
+
+                response.Dados = usuariosMapeados;
+                response.Mensagem = "Usuários listados com sucesso!";
+
+            }
+
+            return response;
+        }
+
+        private static async Task<IEnumerable<Usuario>> ListarUsuarios(SqlConnection connection)
+        {
+
+            return await connection.QueryAsync<Usuario>("select * from Usuarios");
+
+        }
+
+        public async Task<ResponseModel<List<UsuarioListarDto>>> EditarUsuario(UsuarioEditarDto usuarioEditarDto)
+        {
+            ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
+
+           using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var usuariosBanco = await connection.ExecuteAsync("update Usuarios set NomeCompleto = @NomeCompleto," +
+                   "                                                                   Email = @Email, Cargo = @Cargo, Unidade = @Unidade," +
+                   "                                                                   Situacao = @Situacao where Id = @Id ", usuarioEditarDto);
+                if (usuariosBanco == 0)
+                {
+                    response.Mensagem = "Nenhum usuário encontrado com o ID digitado.";
+                    response.Status = false;
+                    return response;
+                }
+
+                var usuarios = await ListarUsuarios(connection);
+
+                var usuariosMapeados = _mapper.Map<List<UsuarioListarDto>>(usuarios);
+
+                response.Dados = usuariosMapeados;
+                response.Mensagem = "Usuarios listados com sucesso!";
+
+            }
+
+            return response;
+        }
+
+        public async Task<ResponseModel<List<UsuarioListarDto>>> RemoverUsuario(int usuarioId)
+        {
+            ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
+
+            using(var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+             var usuariosBanco = await connection.ExecuteAsync("delete from Usuarios where id = @Id", new {Id = usuarioId});
+                
+                if (usuariosBanco == 0)
+                {
+                    response.Mensagem = "Ocorreu um erro ao realizar a edição";
+                    response.Status = false;
+                    return response;
+                }
+
+                var usuarios = await ListarUsuarios(connection);
+
+                var usuariosMapeados = _mapper.Map<List<UsuarioListarDto>>(usuarios);
+
+                response.Dados = usuariosMapeados;
+                response.Mensagem = "Usuários Listados com sucesso";
+            }
+
+            return response;
+        }
     }
+
 }
