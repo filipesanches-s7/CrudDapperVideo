@@ -1,3 +1,14 @@
+## Pré-requisitos
+
+Antes de executar o projeto, certifique-se de possuir:
+
+- .NET SDK
+- Docker Desktop
+
+> **Importante**
+>
+> O PostgreSQL não precisa ser instalado localmente. O banco de dados é criado e iniciado automaticamente pelo Docker através do arquivo `docker-compose.yml`.
+
 # Como executar o projeto
 
 ## 1. Clone o repositório
