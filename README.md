@@ -1,55 +1,55 @@
-Como executar o projeto
+# Como executar o projeto
 
-### 1. Clone o repositório
+## 1. Clone o repositório
 
-```bash
+```powershell
 git clone https://github.com/filipesanches-s7/CrudDapperVideo.git
 ```
 
-### 2. Acesse a pasta do projeto
+## 2. Acesse a pasta do projeto
 
-```bash
+```powershell
 cd CrudDapperVideo
 ```
 
-### 3. Inicie o banco de dados
+## 3. Inicie o banco de dados
 
-O projeto utiliza um container Docker para o PostgreSQL.
+O projeto utiliza **Docker** para executar o PostgreSQL. Execute o comando abaixo:
 
-```bash
+```powershell
 docker compose up -d
 ```
 
-Na primeira execução o Docker irá:
+Na primeira execução, o Docker irá:
 
-- baixar a imagem do PostgreSQL;
-- criar o banco de dados `CrudDpp`;
-- executar automaticamente o script de criação da tabela;
-- disponibilizar o banco na porta **5432**.
+- Baixar a imagem do PostgreSQL;
+- Criar o banco de dados **CrudDpp**;
+- Executar automaticamente o script `init.sql`;
+- Disponibilizar o banco na porta **5432**.
 
-### 4. Execute a API
+## 4. Execute a API
 
 Pelo terminal:
 
-```bash
+```powershell
 dotnet run
 ```
 
 Ou abra a solução no **Visual Studio** e execute normalmente.
 
-### 5. Acesse o Swagger
+## 5. Acesse o Swagger
 
-Depois que a aplicação iniciar, acesse:
+Com a aplicação em execução, abra:
 
-```
+```text
 https://localhost:7049/swagger
 ```
 
-Por meio do Swagger é possível testar todos os endpoints da API.
+No Swagger é possível testar todos os endpoints da API.
 
 ---
 
-## Endpoints disponíveis
+# Endpoints disponíveis
 
 | Método | Endpoint | Descrição |
 |---------|----------|-----------|
