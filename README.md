@@ -29,7 +29,13 @@ Na primeira execução, o Docker irá:
 
 ## 4. Execute a API
 
-Pelo terminal:
+Entre na pasta do projeto:
+
+```powershell
+cd CrudDapperVideo
+```
+
+Depois execute:
 
 ```powershell
 dotnet run
