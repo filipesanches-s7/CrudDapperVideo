@@ -54,15 +54,14 @@ dotnet run
 
 Ou abra a solução no **Visual Studio** e execute normalmente.
 
-## 5. Acesse o Swagger
+## 5. ## Acesse o Swagger
 
-Com a aplicação em execução, abra:
+Após iniciar a aplicação, acesse o endereço informado no terminal.
+
+Exemplo:
 
 ```text
-https://localhost:7049/swagger
-```
-
-No Swagger é possível testar todos os endpoints da API.
+http://localhost:5219/swagger
 
 ---
 
