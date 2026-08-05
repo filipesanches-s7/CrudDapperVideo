@@ -61,7 +61,7 @@ namespace CrudDapperVideo.Controllers
         {
             var usuarios = await _usuarioInterface.EditarUsuario(usuarioEditarDto);
 
-            if (usuarios.Status != false)
+            if (usuarios.Status == false)
             {
                 return BadRequest(usuarios);
             }
@@ -75,7 +75,7 @@ namespace CrudDapperVideo.Controllers
         {
             var usuarios = await _usuarioInterface.RemoverUsuario(usuarioId);
 
-            if (usuarios.Status == false)
+            if (!usuarios.Status)
             {
                 return BadRequest(usuarios);
             }
