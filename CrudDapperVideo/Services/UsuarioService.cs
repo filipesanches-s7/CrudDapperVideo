@@ -2,7 +2,8 @@
 using CrudDapperVideo.Dto;
 using CrudDapperVideo.Models;
 using Dapper;
-using Microsoft.Data.SqlClient;
+using Npgsql;
+using System.Data;
 
 namespace CrudDapperVideo.Services
 {
@@ -20,9 +21,9 @@ namespace CrudDapperVideo.Services
         {
             ResponseModel<UsuarioListarDto> response = new ResponseModel<UsuarioListarDto>();
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"))) 
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                var usuarioBanco = await connection.QueryFirstOrDefaultAsync<Usuario>("select * from Usuarios where id = @Id", new {Id = usuarioId});
+                var usuarioBanco = await connection.QueryFirstOrDefaultAsync<Usuario>("select * from usuarios where id = @Id", new {Id = usuarioId});
 
                 if(usuarioBanco == null)
                 {
@@ -47,10 +48,10 @@ namespace CrudDapperVideo.Services
 
 
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
 
-                var usuariosBanco = await connection.QueryAsync<Usuario>("select * from Usuarios");
+                var usuariosBanco = await connection.QueryAsync<Usuario>("select * from usuarios");
 
                 if (usuariosBanco.Count() == 0)
                 {
@@ -77,10 +78,10 @@ namespace CrudDapperVideo.Services
         {
             ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
 
-                var usuariosBanco = await connection.ExecuteAsync("insert into Usuarios (NomeCompleto, Email, Cargo, Unidade, Situacao, Senha) "+
+                var usuariosBanco = await connection.ExecuteAsync("insert into usuarios (nomecompleto, email, cargo, unidade, situacao, senha) "+
                   "values (@NomeCompleto, @Email, @Cargo, @Unidade, @Situacao, @Senha)", usuarioCriarDto);
 
                 if(usuariosBanco == 0)
@@ -104,22 +105,20 @@ namespace CrudDapperVideo.Services
             return response;
         }
 
-        private static async Task<IEnumerable<Usuario>> ListarUsuarios(SqlConnection connection)
+        private static async Task<IEnumerable<Usuario>> ListarUsuarios(IDbConnection connection)
         {
-
-            return await connection.QueryAsync<Usuario>("select * from Usuarios");
-
+            return await connection.QueryAsync<Usuario>("select * from usuarios");
         }
 
         public async Task<ResponseModel<List<UsuarioListarDto>>> EditarUsuario(UsuarioEditarDto usuarioEditarDto)
         {
             ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
 
-           using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                var usuariosBanco = await connection.ExecuteAsync("update Usuarios set NomeCompleto = @NomeCompleto," +
-                   "                                                                   Email = @Email, Cargo = @Cargo, Unidade = @Unidade," +
-                   "                                                                   Situacao = @Situacao where Id = @Id ", usuarioEditarDto);
+                var usuariosBanco = await connection.ExecuteAsync("update usuarios set nomecompleto = @NomeCompleto," +
+                   "                                                                   email = @Email, cargo = @Cargo, unidade = @Unidade," +
+                   "                                                                   situacao = @Situacao where id = @Id ", usuarioEditarDto);
                 if (usuariosBanco == 0)
                 {
                     response.Mensagem = "Nenhum usuário encontrado com o ID digitado.";
@@ -143,9 +142,9 @@ namespace CrudDapperVideo.Services
         {
             ResponseModel<List<UsuarioListarDto>> response = new ResponseModel<List<UsuarioListarDto>>();
 
-            using(var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-             var usuariosBanco = await connection.ExecuteAsync("delete from Usuarios where id = @Id", new {Id = usuarioId});
+             var usuariosBanco = await connection.ExecuteAsync("delete from usuarios where id = @Id", new {Id = usuarioId});
                 
                 if (usuariosBanco == 0)
                 {
