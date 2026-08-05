@@ -3,7 +3,7 @@ Como executar o projeto
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/CrudDapperVideo.git
+git clone https://github.com/filipesanches-s7/CrudDapperVideo.git
 ```
 
 ### 2. Acesse a pasta do projeto
