@@ -98,7 +98,7 @@ namespace CrudDapperVideo.Services
                 var usuariosMapeados = _mapper.Map<List<UsuarioListarDto>>(usuarios);
 
                 response.Dados = usuariosMapeados;
-                response.Mensagem = "Usuários listados com sucesso!";
+                response.Mensagem = "Usuário cadastrado com sucesso!";
 
             }
 
@@ -131,7 +131,7 @@ namespace CrudDapperVideo.Services
                 var usuariosMapeados = _mapper.Map<List<UsuarioListarDto>>(usuarios);
 
                 response.Dados = usuariosMapeados;
-                response.Mensagem = "Usuarios listados com sucesso!";
+                response.Mensagem = "Usuarios atualizado com sucesso!";
 
             }
 
